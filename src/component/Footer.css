@@ -1,0 +1,20 @@
+.footer-list {
+    display: flex;
+    justify-content: space-between;
+    padding: unset;
+    width: 100%;
+}
+
+.footer{
+    display: flex;
+    width: 15rem;
+    padding-top: 2rem;
+}
+
+.footer-list a {
+    font-size: 12px;
+}
+
+.footer-list li{
+    display: flex;
+}

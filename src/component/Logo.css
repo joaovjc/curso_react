@@ -1,0 +1,5 @@
+.logo-container{
+    display: flex;
+    align-items: center;
+    margin-top: 32px;
+}
