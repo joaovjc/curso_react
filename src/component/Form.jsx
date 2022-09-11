@@ -3,8 +3,15 @@ import "./Form.css"
 import React, { useState } from 'react';
 import { useForm } from "react-hook-form";
 import { PopupError } from "./PopUpError"
-import { LOGINERROR } from "../helpers/validation.helper"
+import { PopUpValidation } from "./PopUpValidation"
+import { LOGINERROR, REQUIREDPASSWORD, REQUIREDUSERNAME, MIN_4 } from "../helpers/validation.helper"
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 
+const schemaValidation = yup.object({
+    username: yup.string().required(REQUIREDUSERNAME).min(4, MIN_4),
+    password: yup.string().required(REQUIREDPASSWORD)
+  });
 export const FormLoginComponent = () => {
     const [isOpen, setIsOpen] = useState(false);
  
@@ -14,9 +21,15 @@ export const FormLoginComponent = () => {
 
     const {
         register,
-        handleSubmit
+        handleSubmit,
+        formState: { errors },
     } = useForm({
-        mode: "all"
+        mode: "all",
+        defaultValues: {
+            username: "",
+            password: "",
+        },
+        resolver: yupResolver(schemaValidation)
     });
 
     const onSubmit = handleSubmit((form) => {
@@ -31,6 +44,12 @@ export const FormLoginComponent = () => {
             {isOpen && <PopupError 
             content={LOGINERROR}
             handleClose={togglePopup}
+            />}
+            {errors.username && <PopUpValidation 
+            content={errors.username.message}
+            />}
+            {errors.password && <PopUpValidation 
+            content={errors.password.message}
             />}
             <div class="form-container">
                 <form onSubmit={onSubmit} class="login">
